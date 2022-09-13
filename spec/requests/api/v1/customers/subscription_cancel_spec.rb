@@ -8,9 +8,13 @@ describe 'subscription endpoint' do
     
         expect(subscription.status).to eq("active")
         
-        patch "/api/v1/customers/#{customer.id}/subscriptions/#{subscription.id}", params: {status: "cancelled"}
-
+        patch "/api/v1/customers/#{customer.id}/subscriptions/#{subscription.id}", params: {status: :cancelled}
+        
         expect(response.status).to eq(204)
-        expect(subscription.status).to eq("cancelled")
+        binding.pry
+        json = JSON.parse(response.body, symbolize_names: true)
+
+        expect(json).to have_key :status
+        expect(json[:data][:attributes][:status]).to eq("cancelled")
     end
 end

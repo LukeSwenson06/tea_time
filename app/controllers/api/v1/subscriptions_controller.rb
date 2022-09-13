@@ -8,6 +8,14 @@ class Api::V1::SubscriptionsController < ApplicationController
         end
     end
 
+    def update
+        subscription = Subscription.find_by(customer_id: params[:customer_id], id: params[:id])
+        if subscription
+            update = Subscription.update(subscription_params)
+            render json: SubscriptionSerializer.new(update).serializable_hash, status: 204
+        end
+    end
+
     private
     def subscription_params
         params.permit(:tea_id, :customer_id, :title, :price, :frequency, :status)
