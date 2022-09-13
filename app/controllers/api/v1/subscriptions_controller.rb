@@ -15,8 +15,10 @@ class Api::V1::SubscriptionsController < ApplicationController
     def update
         subscription = Subscription.find_by(customer_id: params[:customer_id], id: params[:id])
         if subscription
-            update = Subscription.update(subscription_params)
-            render json: SubscriptionSerializer.new(update).serializable_hash, status: 204
+            subscription.update(subscription_params)
+            render json: SubscriptionSerializer.new(subscription).serializable_hash, status: 200
+        else
+            render json: {error: "No subscription is found"}, status: 400
         end
     end
 
