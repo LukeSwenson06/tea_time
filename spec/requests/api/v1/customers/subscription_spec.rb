@@ -16,12 +16,15 @@ describe 'subscription endpoint' do
 
     subscription = JSON.parse(response.body, symbolize_names: true)
 
-    expect(subscription).to have_key :tea_id
-    expect(subscription[:data]).to have_key :title
-    expect(subscription[:data][:title]).to be_a String
-    expect(subscription[:data]).to have_key :price
-    expect(subscription[:data][:price]).to be_a String
-    expect(subscription[:data]).to have_key :frequency
-    expect(subscription[:data]).to be_a Symbol
+    expect(subscription[:data]).to have_key :id
+    attributes = subscription[:data][:attributes]
+    expect(attributes).to have_key :title
+    expect(attributes[:title]).to be_a String
+    expect(attributes).to have_key :price
+    expect(attributes[:price]).to be_a Float
+    expect(attributes).to have_key :frequency
+    expect(attributes[:frequency]).to be_a String
+    expect(attributes).to have_key :status
+    expect(attributes[:status]).to be_a String
     end
 end
